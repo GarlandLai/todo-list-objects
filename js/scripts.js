@@ -31,5 +31,10 @@ $(document).ready(function () {
     event.preventDefault();
     var input = $('.input').val();
     task = new Task(input, '');
+    $('.output').append('<li>' + input + '</li>');
+  });
+
+  $('ul').on('click', 'li', function () {
+    $(this).toggleClass('crossOff');
   });
 });
