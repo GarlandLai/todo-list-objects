@@ -18,11 +18,32 @@ TodoList.prototype.assignId = function () {
   return this.currentId;
 };
 
+TodoList.prototype.findTask = function (id) {
+  for (var i = 0; i < this.tasks.length; i++) {
+    if (this.tasks[i]) {
+      if (this.tasks[i].id == id) {
+        return this.tasks[i];
+      }
+    }
+  };
+
+  return false;
+};
+
+TodoList.prototype.deleteTask = function (id) {
+  for (var i = 0; i < this.tasks.length; i++) {
+    if (this.tasks[i]) {
+      if (this.tasks[i].id == id) {
+        delete this.tasks[i];
+        return true;
+      }
+    }
+  };
+
+  return false;
+};
+
 var todoListPersonal = new TodoList();
-
-var task1 = new Task('walk the dog', 'home');
-
-todoListPersonal.addTask(task1);
 
 //frontend logic
 
@@ -30,11 +51,18 @@ $(document).ready(function () {
   $('#formOne').submit(function (event) {
     event.preventDefault();
     var input = $('.input').val();
-    task = new Task(input, '');
-    $('.output').append('<li>' + input + '</li>');
+    var task = new Task(input, '');
+    todoListPersonal.addTask(task);
+    $('.output').append('<li data-id=' + task.id + '>' + input + '</li>');
   });
 
   $('ul').on('click', 'li', function () {
     $(this).toggleClass('crossOff');
+  });
+
+  $('ul').on('dblclick', 'li', function () {
+    var id = this.dataset.id;
+    todoListPersonal.deleteTask(id);
+    $(this).remove('li');
   });
 });
