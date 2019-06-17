@@ -3,9 +3,9 @@ function TodoList() {
   this.currentId = 0;
 }
 
-function Task(item, location, Important) {
+function Task(item, location, important) {
   this.item = item,
-  this.location = location,
+  this.location = location;
   this.important = false;
 }
 
@@ -49,17 +49,18 @@ var todoListPersonal = new TodoList();
 //frontend logic
 
 $(document).ready(function () {
-  console.log($('input:checkbox[name=important]').prop('checked'));
   $('#formOne').submit(function (event) {
     event.preventDefault();
     var input = $('.input').val();
     var task = new Task(input, '');
     todoListPersonal.addTask(task);
-
-    if ($('input:checkbox[name=important]').prop('checked')) {
+    if ('input:checkbox[name=important]:checked') {
       task.important = true;
+    }
+
+    if (task.important === true) {
       $('.output').prepend('<li data-id=' + task.id + '>' + input + '</li>');
-    } else {
+    } else if (task.important === false) {
       $('.output').append('<li data-id=' + task.id + '>' + input + '</li>');
     }
   });
